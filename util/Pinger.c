@@ -53,6 +53,7 @@ static void timeoutCallback(void* vping)
 static void sendPingCallback(void* vping)
 {
     struct Ping* ping = vping;
+printf("sending ping\n");
     ping->sendPing(ping->data, ping->public.context);
 }
 
