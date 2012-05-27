@@ -126,7 +126,7 @@ static void sendPing(String* data, void* sendPingContext)
     struct Headers_SwitchHeader* switchHeader = (struct Headers_SwitchHeader*) msg.bytes;
     switchHeader->label_be = Endian_hostToBigEndian64(p->label);
     Headers_setPriorityAndMessageType(switchHeader, 0, Headers_SwitchHeader_TYPE_CONTROL);
-
+Log_debug(p->context->logger, "Sending ping");
     p->context->iface->sendMessage(&msg, p->context->iface);
 }
 
