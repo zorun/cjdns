@@ -101,7 +101,9 @@ static struct Timeout* setTimeout(void (* const callback)(void* callbackContext)
                  handleEvent,
                  timeout);
     struct timeval time = timeForMilliseconds(milliseconds);
-    event_add(timeout->event, &time);
+    if (event_add(timeout->event, &time)) {
+        printf("Failed to create timeout event\n");
+    }
 
     return timeout;
 }

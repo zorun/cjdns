@@ -180,6 +180,7 @@ static void pingCallback(void* vic)
 
             if (!ping) {
                 Log_debug(ic->logger, "Creating ping structure failed.");
+                return;
             }
 
             ping->onResponseContext = ep;
