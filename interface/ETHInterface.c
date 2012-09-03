@@ -92,7 +92,7 @@ static inline void sockaddrForKey(struct sockaddr_ll* sockaddr,
     sockaddr->sll_ifindex = ethIf->ifindex;
     sockaddr->sll_halen = ETH_ALEN;
     if (EFFECTIVE_KEY_SIZE < sizeof(struct sockaddr_ll)) {
-        printf("EKS < %i!!\n", sizeof(struct sockaddr_ll));
+        printf("EKS < %d!!\n", (int) sizeof(struct sockaddr_ll));
         memset(sockaddr->sll_addr, 0, EFFECTIVE_KEY_SIZE);
     }
     Bits_memcpyConst(sockaddr->sll_addr, key, EFFECTIVE_KEY_SIZE);
