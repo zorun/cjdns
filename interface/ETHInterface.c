@@ -83,12 +83,17 @@ static inline void sockaddrForKey(struct sockaddr_ll* sockaddr,
                                   uint8_t key[InterfaceController_KEY_SIZE],
                                   struct ETHInterface* ethIf)
 {
+    int i;
+    for (i = 0; i < InterfaceController_KEY_SIZE; i++) {
+        printf("%X", key[i]);
+    }
+    printf("\n");
     sockaddr->sll_family = AF_PACKET;
     sockaddr->sll_ifindex = ethIf->ifindex;
     sockaddr->sll_halen = ETH_ALEN;
-    if (EFFECTIVE_KEY_SIZE < 8) {
-        printf("EKS < 8!!\n");
-        memset(sockaddr->sll_addr, 0, 8);
+    if (EFFECTIVE_KEY_SIZE < sizeof(struct sockaddr_ll)) {
+        printf("EKS < %i!!\n", sizeof(struct sockaddr_ll));
+        memset(sockaddr->sll_addr, 0, EFFECTIVE_KEY_SIZE);
     }
     Bits_memcpyConst(sockaddr->sll_addr, key, EFFECTIVE_KEY_SIZE);
 }
@@ -97,11 +102,17 @@ static inline void keyForSockaddr(uint8_t key[InterfaceController_KEY_SIZE],
                                   struct sockaddr_ll* sockaddr,
                                   struct ETHInterface* ethIf)
 {
+    int i;
     if (EFFECTIVE_KEY_SIZE < InterfaceController_KEY_SIZE) {
         printf("EKS < IC_KS!!\n");
         memset(key, 0, InterfaceController_KEY_SIZE);
     }
     Bits_memcpyConst(key, sockaddr->sll_addr, EFFECTIVE_KEY_SIZE);
+    for (i = 0; i < InterfaceController_KEY_SIZE; i++) {
+        printf("%X", key[i]);
+    }
+    printf("\n");
+
 }
 
 static uint8_t sendMessage(struct Message* message, struct Interface* ethIf)
@@ -200,7 +211,7 @@ static void handleEvent(evutil_socket_t socket, short eventType, void* vcontext)
 
     if (addrLen != context->addrLen) {
         printf("addrLen != context->addrLen : (%i != %i)\n", addrLen, context->addrLen);
-        return;
+        //return;
     }
     if (rc < 0) {
         return;
@@ -309,7 +320,7 @@ struct ETHInterface* ETHInterface_new(struct event_base* base,
     int j;
     unsigned char srcMac[6];
 
-    context->addrLen = sizeof(struct sockaddr_ll);
+    context->addrLen = sizeof(struct sockaddr);
 
     context->socket = socket(AF_PACKET, SOCK_DGRAM, Endian_hostToBigEndian16(ETH_P_CJDNS));
     if (context->socket == -1) {
