@@ -320,7 +320,7 @@ struct ETHInterface* ETHInterface_new(struct event_base* base,
     int j;
     unsigned char srcMac[6];
 
-    context->addrLen = sizeof(struct sockaddr);
+    context->addrLen = sizeof(struct sockaddr_ll);
 
     context->socket = socket(AF_PACKET, SOCK_DGRAM, Endian_hostToBigEndian16(ETH_P_CJDNS));
     if (context->socket == -1) {
