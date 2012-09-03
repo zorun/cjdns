@@ -91,11 +91,17 @@ static inline void sockaddrForKey(struct sockaddr_ll* sockaddr,
     sockaddr->sll_family = AF_PACKET;
     sockaddr->sll_ifindex = ethIf->ifindex;
     sockaddr->sll_halen = ETH_ALEN;
-    if (EFFECTIVE_KEY_SIZE < sizeof(struct sockaddr_ll)) {
-        printf("EKS < %d!!\n", (int) sizeof(struct sockaddr_ll));
+    if (EFFECTIVE_KEY_SIZE < ETH_ALEN) {
+        printf("EKS < %d!!\n", (int) ETH_ALEN);
         memset(sockaddr->sll_addr, 0, EFFECTIVE_KEY_SIZE);
     }
     Bits_memcpyConst(sockaddr->sll_addr, key, EFFECTIVE_KEY_SIZE);
+    printf("Found src MAC: ");
+    for (i = 0; i < 8; i++) {
+        printf("%02X", sockaddr->sll_addr[i]);
+    }
+    printf("\n");
+
 }
 
 static inline void keyForSockaddr(uint8_t key[InterfaceController_KEY_SIZE],
