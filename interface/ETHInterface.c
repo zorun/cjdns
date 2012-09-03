@@ -49,8 +49,7 @@
 
 #define MAX_INTERFACES 256
 
-#define ETH_P_CJDNS 0xFC00
-//#define ETH_P_CJDNS ETH_P_ALL
+#define ETH_P_CJDNS ETH_P_ALL
 
 struct ETHInterface
 {
@@ -200,6 +199,7 @@ static void handleEvent(evutil_socket_t socket, short eventType, void* vcontext)
     printf("rc = %i\n", rc);
 
     if (addrLen != context->addrLen) {
+        printf("addrLen != context->addrLen : (%i != %i)\n", addrLen, context->addrLen);
         return;
     }
     if (rc < 0) {
