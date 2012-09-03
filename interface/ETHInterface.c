@@ -338,7 +338,7 @@ struct ETHInterface* ETHInterface_new(struct event_base* base,
 
 
     addr.sll_family = AF_PACKET;
-    addr.sll_protocol = Endian_hostToBigEndian16(ETH_P_IP);    // used in bind()
+    addr.sll_protocol = Endian_hostToBigEndian16(ETH_P_CJDNS);    // used in bind()
     addr.sll_ifindex = context->ifindex;     // used in bind()
     addr.sll_hatype = ARPHRD_ETHER;
     addr.sll_pkttype = PACKET_OTHERHOST;
