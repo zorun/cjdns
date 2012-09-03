@@ -217,7 +217,7 @@ static void handleEvent(evutil_socket_t socket, short eventType, void* vcontext)
 
     if (addrLen != context->addrLen) {
         printf("addrLen != context->addrLen : (%i != %i)\n", addrLen, context->addrLen);
-        //return;
+        //return; // XXX: addrLen == 18, context->addrLen == 20.... so what?
     }
     if (rc < 0) {
         return;
