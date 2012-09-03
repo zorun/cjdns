@@ -49,8 +49,8 @@
 
 #define MAX_INTERFACES 256
 
-//#define ETH_P_CJDNS 0xFC00
-#define ETH_P_CJDNS ETH_P_ALL
+#define ETH_P_CJDNS 0xFC00
+//#define ETH_P_CJDNS ETH_P_ALL
 
 struct ETHInterface
 {
